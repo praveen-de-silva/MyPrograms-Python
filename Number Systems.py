@@ -1,6 +1,13 @@
-num = 1234
+# =======================
+# PROGRAM : Number System
+# =======================
+
+num = 123
 base = 16
 conv = []
+
+def convert():
+    pass
 
 quo = num
 
@@ -22,4 +29,6 @@ while True:
 conv.reverse()
 numConv = ''.join(conv)   
 print(numConv)
+
+
 
