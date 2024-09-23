@@ -62,7 +62,7 @@ def adjoint(mat):
         new_row = [] # to contain new values
         
         for j in range(mat_size):
-            temp_val = coFact(mat, j, i) # to get the traspose of the cofactor matrix (i,j) --> (j,i)
+            temp_val = coFact(mat, j, i) # to get the traspose of the cofactor matrix : (i,j) --> (j,i)
             new_row.append(temp_val)
         new_mat.append(new_row)
     return new_mat 
@@ -75,9 +75,7 @@ def inverse(mat):
 
 
 
-
 matA = [[2,3,4], [4,3,1], [1,2,4]]
-
 matA_inverse = inverse(matA)
 
 print(matA_inverse)
