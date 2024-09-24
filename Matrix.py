@@ -50,7 +50,7 @@ def matScalDiv(mat, div_val):
 
     for j in range(mat_size):
         for i in range(mat_size):     
-            new_mat[i][j] = round(new_mat[i][j]/div_val, 2)
+            new_mat[i][j] = round(new_mat[i][j]/div_val, 5)
     return new_mat
 
 def adjoint(mat):
@@ -75,7 +75,18 @@ def inverse(mat):
 
 
 
-matA = [[2,3,4], [4,3,1], [1,2,4]]
+matA = [
+    [2, 80, 97, 74, 44, 9, 1, 81, 17, 75],
+    [80, 97, 40, 47, 4, 31, 64, 60, 75, 87],
+    [44, 26, 65, 47, 39, 72, 32, 50, 21, 53],
+    [35, 44, 44, 81, 70, 62, 72, 60, 98, 34],
+    [96, 25, 83, 19, 32, 44, 63, 43, 57, 53],
+    [89, 40, 70, 71, 7, 26, 60, 85, 62, 93],
+    [35, 77, 44, 81, 50, 25, 28, 41, 93, 24],
+    [40, 23, 3, 87, 67, 18, 39, 26, 54, 1],
+    [39, 80, 78, 76, 26, 57, 12, 10, 85, 73],
+    [56, 80, 63, 62, 19, 98, 95, 35, 88, 7]
+]
 matA_inverse = inverse(matA)
 
 print(matA_inverse)
