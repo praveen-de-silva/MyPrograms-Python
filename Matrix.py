@@ -1,15 +1,16 @@
 def minor(mat, i_ignore, j_ignore):
-    mat_size = len(mat)
+    '''find the minor'''
+    mat_size = len(mat) # no of rows (or columns)
     new_mat = []
 
     for i in range(mat_size):
-        if i==i_ignore:
+        if i==i_ignore: # iqnore the row
             continue
         
         new_row = []
 
         for j in range(mat_size):
-            if j==j_ignore:
+            if j==j_ignore: # iqnore the column
                 continue
             
             new_row.append(mat[i][j])         
@@ -17,9 +18,11 @@ def minor(mat, i_ignore, j_ignore):
     return new_mat
 
 def coFact(mat, i, j):
+    '''find the cofactor'''
     return (-1)**(i+j+2) * det(minor(mat, i, j))
 
 def det(mat):
+    '''find the determinent value'''
     mat_size = len(mat)
     
     if mat_size==1:
@@ -33,6 +36,7 @@ def det(mat):
     return det_val
         
 def transpose(mat):
+    '''find the transpose of the matrix'''
     mat_size = len(mat)
     new_mat = []
 
@@ -45,12 +49,16 @@ def transpose(mat):
     return new_mat
 
 def matScalDiv(mat, div_val):
+    '''scaler division of the matrix'''
     new_mat = mat[:]
     mat_size = len(new_mat)
 
     for j in range(mat_size):
-        for i in range(mat_size):     
-            new_mat[i][j] = round(new_mat[i][j]/div_val, 5)
+        for i in range(mat_size):
+            if new_mat[i][j]==0:
+                new_mat[i][j] = 0 # to avoid printing '0.00' as '-0.00'
+            else:
+                new_mat[i][j] = new_mat[i][j]/div_val # each value is devided by the determinant
     return new_mat
 
 def adjoint(mat):
@@ -62,31 +70,64 @@ def adjoint(mat):
         new_row = [] # to contain new values
         
         for j in range(mat_size):
-            temp_val = coFact(mat, j, i) # to get the traspose of the cofactor matrix : (i,j) --> (j,i)
+            temp_val = coFact(mat, i, j)
             new_row.append(temp_val)
         new_mat.append(new_row)
-    return new_mat 
+
+    res_mat = transpose(new_mat)
+    return res_mat # ADJOINT = TRANSEPOSE( COFACTOR MATRIX )
 
 def inverse(mat):
     '''find the inverse of a matrix'''
     mat_adj = adjoint(mat)
     mat_det = det(mat)
-    return matScalDiv(mat_adj, mat_det)
+    return matScalDiv(mat_adj, mat_det) # INVERSE = ADJOINT / DETERMINENT
+
+def readData(file_inp_name):
+    '''read data and returns the matrices'''
+    file_inp = open(file_inp_name, 'r')
+    count_matrices = int(file_inp.readline())
+    matrices = []
+
+    for _ in range(count_matrices):
+        mat_size = int(file_inp.readline())
+        mat = []
+
+        for _ in range(mat_size):
+            row = list(map(int, file_inp.readline().strip().split(',')))
+            mat.append(row)
+        matrices.append(mat)
+    return matrices   
+
+def makeMatPrint(mat, mat_no):
+    '''making a string to present the matrix'''
+    mat_str = f'Inverse of Matrix {mat_no}:'
+
+    for row in mat:
+        mat_str += '\n' + ' '.join([f'{val:7.2f}' for val in row])   
+    return mat_str
+    
+    
+if __name__=='__main__':
+    matrices = readData('matrix_data.txt') # read the data
+
+    for i in range(len(matrices)):
+        mat_str = makeMatPrint(matrices[i], i+1)
+        print(mat_str)
+
+    
+
+
+##matA = [
+##    [1,2,1],
+##    [3,2,1],
+##    [1,0,1]
+##]
+##matA_inv = inverse(matA)
+##matA_inv_str = makeMatPrint(matA_inv, 1)
+##
+##print(matA_inv_str)
 
 
 
-matA = [
-    [2, 80, 97, 74, 44, 9, 1, 81, 17, 75],
-    [80, 97, 40, 47, 4, 31, 64, 60, 75, 87],
-    [44, 26, 65, 47, 39, 72, 32, 50, 21, 53],
-    [35, 44, 44, 81, 70, 62, 72, 60, 98, 34],
-    [96, 25, 83, 19, 32, 44, 63, 43, 57, 53],
-    [89, 40, 70, 71, 7, 26, 60, 85, 62, 93],
-    [35, 77, 44, 81, 50, 25, 28, 41, 93, 24],
-    [40, 23, 3, 87, 67, 18, 39, 26, 54, 1],
-    [39, 80, 78, 76, 26, 57, 12, 10, 85, 73],
-    [56, 80, 63, 62, 19, 98, 95, 35, 88, 7]
-]
-matA_inverse = inverse(matA)
 
-print(matA_inverse)
