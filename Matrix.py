@@ -1,3 +1,26 @@
+def matMult(mat1, mat2):
+    '''Multiply two matrices'''
+    rows_mat1 = len(mat1)
+    cols_mat1 = len(mat1[0])  
+    rows_mat2 = len(mat2)
+    cols_mat2 = len(mat2[0])  
+
+    # Check if multiplication is possible
+    if cols_mat1 != rows_mat2:
+        raise ValueError("Matrix multiplication not possible: Columns of first matrix must match rows of second matrix.")
+
+    # Initialize result matrix with zeros
+    result = [[0 for _ in range(cols_mat2)] for _ in range(rows_mat1)]
+
+    # Perform multiplication
+    for i in range(rows_mat1):
+        for j in range(cols_mat2):
+            for k in range(cols_mat1):  # Same as rows_mat2
+                result[i][j] += mat1[i][k] * mat2[k][j]
+
+    return result
+
+
 def minor(mat, i_ignore, j_ignore):
     '''find the minor'''
     mat_size = len(mat) # no of rows (or columns)
@@ -108,25 +131,35 @@ def makeMatPrint(mat, mat_no):
     return mat_str
     
     
-if __name__=='__main__':
-    matrices = readData('matrix_data.txt') # read the data
+##if __name__=='__main__':
+##    matrices = readData('matrix_data.txt') # read the data
 
-    for i in range(len(matrices)):
-        mat_str = makeMatPrint(matrices[i], i+1)
-        print(mat_str)
+##    for i in range(len(matrices)):
+##        mat_str = makeMatPrint(matrices[i], i+1)
+##        print(mat_str)
 
     
 
 
-##matA = [
-##    [1,2,1],
-##    [3,2,1],
-##    [1,0,1]
-##]
-##matA_inv = inverse(matA)
-##matA_inv_str = makeMatPrint(matA_inv, 1)
-##
-##print(matA_inv_str)
+matA = [
+    [16,10,4],
+    [10,21,-5],
+    [2,-6,-8]
+]
+
+matA_inv = inverse(matA)
+
+matB = [
+    [1],
+    [1],
+    [0]
+]
+
+result = matMult(matA_inv, matB)
+
+matA_inv_str = makeMatPrint(result, 1)
+
+print(matA_inv_str)
 
 
 
